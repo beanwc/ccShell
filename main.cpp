@@ -5,8 +5,9 @@
 
 using namespace std;
 
-char * get_line();
+void replace_username();
 char * get_userinfo();
+char * get_line();
 
 int main()
 {
@@ -16,6 +17,38 @@ int main()
     {
         read_line = get_line();
         cout<<read_line<<endl;
+    }
+}
+
+void replace_username(char path[], char * username)
+{
+    char result[1024], tmpstr[1025], tmpusername[strlen(username)+6];
+    char *  position = NULL;
+
+    memset(result, '\0', 1024);
+    memset(tmpusername, '\0', strlen(username)+6);
+
+    if(0 == strcmp(username, "root"))
+    {
+        strcpy(tmpusername, "/");
+    }
+    else
+    {
+        strcpy(tmpusername, "/home/");
+    }
+    strcat(tmpusername, username);
+
+    strcpy(tmpstr,path);
+    position = strstr(path, tmpusername);
+    if(NULL != position)
+    {
+        while(NULL != path && path != position)
+        {
+            path++;
+        }
+        path[0]='\0';
+        strcat(path, "~");
+        strcat(path, strstr(tmpstr,tmpusername) + strlen(tmpusername));
     }
 }
 
@@ -36,21 +69,22 @@ char * get_userinfo()
     strcat(result, username);
     strcat(result, "@");
 
-    if(gethostname(host, 100) == -1)
+    if(-1 == gethostname(host, 100))
     {
         strcpy(host, "localhost");
     }
     strcat(result, host);
-    strcat(result, ":");
+    strcat(result, " ");
 
-    if( getcwd(path,1024) == NULL)
+    if(NULL == getcwd(path,1024))
     {
         cout<<"路径获取失败！"<<endl;
     }
+    replace_username(path, username);
     strcat(result, path);
     strcat(result, "]");
 
-    if(strcmp(username,"root") == 0)
+    if(0 == strcmp(username,"root"))
     {
         strcat(result, "#");
     }
