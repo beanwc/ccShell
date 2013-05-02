@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1367517348 source:/home/bean/workplace/ccShell/main.cpp
+	<iostream>
+	<grp.h>
+	<readline/readline.h>
+	<readline/history.h>
+
