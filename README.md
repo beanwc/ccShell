@@ -1,4 +1,4 @@
-cc_shell
+ccShell
 ========
 
-This a shell command analyse program name cc_shell ! 
+This a shell command analyse program name ccShell ! 
