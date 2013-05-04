@@ -7,21 +7,24 @@
 
 using namespace std;
 
-bool pwd_command()
+void system_execute(char * command, char *arg[])
 {
-    char * path = new char[1024];
+    int i = 0;
+    char * sys_command = new char[2048];
 
-    memset(path, '\0', 1024);
+    memset(sys_command, '\0', 2048);
 
-    if( getcwd(path,1024) == NULL)
+    strcpy(sys_command, command);
+    while(arg[i])
     {
-        cout<<"ccShell: pwd: Get path filed !"<<endl;
-        return false;
+        strcat(sys_command, " ");
+        strcat(sys_command, arg[i]);
+        i++;
     }
-    cout<<path<<endl;
-    delete [] path;
-    return true;
+    system(sys_command);
+    delete sys_command;
 }
+
 
 bool cd_command(char *arg)
 {
@@ -31,22 +34,4 @@ bool cd_command(char *arg)
         return false;
     }
     return true;
-}
-
-void ls_command(char *arg[])
-{
-    int i = 0;
-    char * sys_command = new char[1024];
-
-    memset(sys_command, '\0', 1024);
-
-    strcpy(sys_command, "ls");
-    while(arg[i])
-    {
-        strcat(sys_command, " ");
-        strcat(sys_command, arg[i]);
-        i++;
-    }
-    system(sys_command);
-    delete sys_command;
 }

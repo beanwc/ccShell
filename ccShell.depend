@@ -15,15 +15,16 @@
 	<stdio.h>
 	"ShellInitDef.h"
 
-1367686732 source:/home/bean/workplace/ccShell/ExecuteCommand.cpp
+1367690947 source:/home/bean/workplace/ccShell/ExecuteCommand.cpp
 	<iostream>
 	<stdlib.h>
 	<string.h>
+	<stdio.h>
 	"ExecuteCommandDef.h"
 
 1367667591 /home/bean/workplace/ccShell/ExecuteCommand.h
 
-1367685934 /home/bean/workplace/ccShell/ExecuteCommandDef.h
+1367690922 /home/bean/workplace/ccShell/ExecuteCommandDef.h
 
 1367672492 /home/bean/workplace/ccShell/ShellInitDef.h
 	<grp.h>

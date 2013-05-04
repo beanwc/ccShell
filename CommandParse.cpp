@@ -38,16 +38,12 @@ void analyse_command(char *command_line)
 
 void execute(char * command, char *arg[])
 {
-    if(!strcmp(command, "pwd"))
-    {
-        pwd_command();
-    }
-    else if(!strcmp(command, "cd"))
+    if(!strcmp(command, "cd"))
     {
         cd_command(arg[0]);
     }
-    else if(!strcmp(command, "ls"))
+    else
     {
-        ls_command(arg);
+        system_execute(command, arg);
     }
 }
