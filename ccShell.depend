@@ -1,7 +1,21 @@
 # depslib dependency file v1.0
-1367517348 source:/home/bean/workplace/ccShell/main.cpp
+1367667687 source:/home/bean/workplace/ccShell/main.cpp
 	<iostream>
+	"ShellInit.h"
+	"ExecuteCommand.h"
+
+1367665002 /home/bean/workplace/ccShell/ShellInit.h
 	<grp.h>
 	<readline/readline.h>
 	<readline/history.h>
+
+1367667008 source:/home/bean/workplace/ccShell/ShellInit.cpp
+	<iostream>
+	"ShellInit.h"
+
+1367667512 source:/home/bean/workplace/ccShell/ExecuteCommand.cpp
+	<iostream>
+	"ExecuteCommand.h"
+
+1367667591 /home/bean/workplace/ccShell/ExecuteCommand.h
 
