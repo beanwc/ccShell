@@ -2,6 +2,7 @@
 
 #include "ShellInitDef.h"
 #include "ExecuteCommandDef.h"
+#include "CommandParseDef.h"
 
 using namespace std;
 
@@ -12,7 +13,7 @@ int main()
     while(true)
     {
         command_line = get_command();
-        cout<<"Input:"<<command_line<<endl;
+        analyse_command(command_line);
     }
 }
 

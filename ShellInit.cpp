@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 
 #include "ShellInitDef.h"
 
@@ -46,35 +47,27 @@ char * get_userinfo()
     memset(path, '\0', 1024);
     memset(result, '\0', 1200);
 
-    strcat(result, "[");
-
     groupdata = getgrgid(getgid());
     username=groupdata->gr_name;
-    strcat(result, username);
-    strcat(result, "@");
 
     if(-1 == gethostname(host, 100))
     {
         strcpy(host, "localhost");
     }
-    strcat(result, host);
-    strcat(result, " ");
 
     if(NULL == getcwd(path,1024))
     {
         cout<<"路径获取失败！"<<endl;
     }
     replace_username(path, username);
-    strcat(result, path);
-    strcat(result, "]");
 
     if(0 == strcmp(username,"root"))
     {
-        strcat(result, "#");
+        sprintf(result, "[%s@%s %s]#", username, host, path);
     }
     else
     {
-        strcat(result, "$");
+        sprintf(result, "[%s@%s %s]$", username, host, path);
     }
 
     return result;
