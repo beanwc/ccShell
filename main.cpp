@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "ShellInit.h"
-#include "ExecuteCommand.h"
+#include "ShellInitDef.h"
+#include "ExecuteCommandDef.h"
 
 using namespace std;
 
