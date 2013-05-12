@@ -69,23 +69,23 @@ void execute(char * command, char *arg[])
 void readline_init()
 {
     rl_readline_name = "ccShell";
-    rl_attempted_completion_function = shell_completion;
+    rl_attempted_completion_function = command_complete;
 }
 
-char ** shell_completion(const char* text, int start, int end)
+char ** command_complete(const char* text, int start, int end)
 {
-    char **matches;
+    char ** matches;
 
     matches = (char **) NULL;
     if (0 == start)
     {
-        matches = rl_completion_matches(text, command_generator);
+        matches = rl_completion_matches(text, command_produce);
     }
 
     return matches;
 }
 
-char * command_generator(const char *text, int state)
+char * command_produce(const char *text, int state)
 {
     static int list_index, len;
     char * command_name = (char *) malloc(100);
@@ -104,18 +104,9 @@ char * command_generator(const char *text, int state)
         list_index++;
         if (strncmp(command_name, text, len) == 0)
         {
-            return (dupstr(command_name));
+            return command_name;
         }
     }
 
     return NULL;
-}
-
-char * dupstr(char* s)
-{
-    char *r;
-
-    r = (char*)malloc(strlen(s) + 1);
-    strcpy(r, s);
-    return (r);
 }

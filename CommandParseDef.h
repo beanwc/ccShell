@@ -14,11 +14,9 @@ struct _COMMAND
 
 void readline_init();
 
-char ** shell_completion(const char* text, int start, int end);
+char ** command_complete(const char* text, int start, int end);
 
-char * command_generator(const char *text, int state);
-
-char * dupstr(char* s);
+char * command_produce(const char *text, int state);
 
 void analyse_command(char *command_line);
 
