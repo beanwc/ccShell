@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1368355674 source:/home/bean/workplace/ccShell/main.cpp
+1368398115 source:/home/bean/workplace/ccShell/main.cpp
 	<iostream>
 	"ShellInitDef.h"
 	"ExecuteCommandDef.h"
@@ -10,12 +10,13 @@
 	<readline/readline.h>
 	<readline/history.h>
 
-1368354777 source:/home/bean/workplace/ccShell/ShellInit.cpp
+1368399674 source:/home/bean/workplace/ccShell/ShellInit.cpp
 	<iostream>
 	<stdio.h>
+	<stdlib.h>
 	"ShellInitDef.h"
 
-1368354869 source:/home/bean/workplace/ccShell/ExecuteCommand.cpp
+1368399641 source:/home/bean/workplace/ccShell/ExecuteCommand.cpp
 	<iostream>
 	<stdlib.h>
 	<string.h>
@@ -25,18 +26,20 @@
 
 1367667591 /home/bean/workplace/ccShell/ExecuteCommand.h
 
-1368354810 /home/bean/workplace/ccShell/ExecuteCommandDef.h
+1368397735 /home/bean/workplace/ccShell/ExecuteCommandDef.h
 
-1368354816 /home/bean/workplace/ccShell/ShellInitDef.h
+1368398327 /home/bean/workplace/ccShell/ShellInitDef.h
 	<grp.h>
 	<readline/readline.h>
 	<readline/history.h>
 
-1368355055 source:/home/bean/workplace/ccShell/CommandParse.cpp
+1368400414 source:/home/bean/workplace/ccShell/CommandParse.cpp
 	<iostream>
 	<string.h>
-	"ExecuteCommandDef.h"
+	<stdlib.h>
 	"CommandParseDef.h"
+	"ShellInitDef.h"
 
-1367685970 /home/bean/workplace/ccShell/CommandParseDef.h
+1368400569 /home/bean/workplace/ccShell/CommandParseDef.h
+	"ExecuteCommandDef.h"
 

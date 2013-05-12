@@ -11,7 +11,7 @@ using namespace std;
 void system_execute(char * command, char *arg[])
 {
     int i = 0;
-    char * sys_command = new char[2048];
+    char * sys_command = (char *) malloc(2048);
 
     memset(sys_command, '\0', 2048);
 
@@ -23,39 +23,39 @@ void system_execute(char * command, char *arg[])
         i++;
     }
     system(sys_command);
-    delete sys_command;
+    free(sys_command);
 }
 
 
-bool cd_command(char *arg)
+int cd_command(char *arg)
 {
     if( chdir(arg))
     {
         cout<<"ccShell: cd "<<arg<<": No such file or directory !"<<endl;
-        return false;
+        return -1;
     }
-    return true;
+    return 0;
 }
 
-bool pwd_command()
+int pwd_command(char *arg)
 {
-	char * path = new char[1024];
+	char * path = (char *) malloc(1024);
 
 	memset(path, '\0', 1024);
 
 	if(getcwd(path,1024) == NULL)
 	{
         cout<<"Get path failed !"<<endl;
-        return false;
+        return -1;
 	}
 	else
 	{
         cout<<path<<endl;
-        return true;
+        return 0;
 	}
 }
 
-void history_command()
+int history_command(char *arg)
 {
     int i = 0;
     HIST_ENTRY** historylist = NULL;
@@ -70,12 +70,13 @@ void history_command()
             i++;
         }
     }
+    return 0;
 }
 
-bool ls_command(char * command, char *arg[])
+int ls_command(char * command, char *arg[])
 {
 //    int i = 0;
-    char * command_arg = new char[100];
+    char * command_arg = (char *) malloc(100);
 
     memset(command_arg, '\0', 100);
 
@@ -87,6 +88,6 @@ bool ls_command(char * command, char *arg[])
 //        i++;
 //    }
 //    execve(command, "a", "l");
-    delete command_arg;
-    return true;
+    free(command_arg);
+    return 0;
 }

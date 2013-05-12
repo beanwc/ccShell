@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "ShellInitDef.h"
 
@@ -90,7 +91,7 @@ char * get_command()
     userinfo = get_userinfo();
     if(command_line)
     {
-        delete command_line;
+        free(command_line);
         command_line = (char *)NULL;
     }
     command_line = readline(userinfo);
@@ -116,4 +117,3 @@ void history_finish()
     append_history(history_length, HISTORY_FILE);
     history_truncate_file(HISTORY_FILE, history_max_entries);
 }
-

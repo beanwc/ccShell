@@ -1,0 +1,24 @@
+1.自定义要补全的命令格式：
+
+typedef struct {
+    char *name;  //命令名称
+    char *func;  //出现该命令时，执行的操作
+    char *doc;  //对命令的说明
+}COMMAND;
+
+
+2.初始化readline库，主要是注册rl_attempted_completion_function回调指针：
+
+rl_attempted_completion_function = fileman_completion;  //按tab键时，会触发fileman_completion
+
+
+3.实现fileman_completion函数：
+
+matches = (char **) NULL;
+if (start == 0) {
+    matches = r1_completion_matches(text, command_generator); //根据已输入的text，调用command_generator进行补全
+}
+
+4.实现command_generator函数：根据用户已经输入的text，通过查COMMAND表，返回补全后的字串
+
+5.补全字串的显示等其它事情，readline库会帮你完成 
