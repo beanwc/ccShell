@@ -10,10 +10,12 @@ int main()
 {
     char *command_line = NULL;
 
+    history_init();
     while(true)
     {
         command_line = get_command();
         analyse_command(command_line);
     }
+    history_finish();
 }
 

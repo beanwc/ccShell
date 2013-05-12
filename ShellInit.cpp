@@ -59,9 +59,9 @@ char * get_userinfo()
     {
         position = strchr(host, '.');
         if(position)
-		{
+        {
             *position = '\0';
-		}
+        }
     }
 
     if(NULL == getcwd(path,1024))
@@ -100,3 +100,17 @@ char * get_command()
 
     return command_line;
 }
+
+void history_init()
+{
+    using_history();
+    stifle_history(MAX_HISTORY);
+    read_history(HISTORY_FILE);
+}
+
+void history_finish()
+{
+    append_history(history_length, HISTORY_FILE);
+    history_truncate_file(HISTORY_FILE, history_max_entries);
+}
+

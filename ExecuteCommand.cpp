@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "ExecuteCommandDef.h"
+#include "ShellInitDef.h"
 
 using namespace std;
 
@@ -52,6 +53,23 @@ bool pwd_command()
         cout<<path<<endl;
         return true;
 	}
+}
+
+void history_command()
+{
+    int i = 0;
+    HIST_ENTRY** historylist = NULL;
+
+    historylist = history_list();
+    if(NULL != historylist)
+    {
+        i = 0;
+        while(historylist[i])
+        {
+            printf("%d: %s\n", i, historylist[i]->line);
+            i++;
+        }
+    }
 }
 
 bool ls_command(char * command, char *arg[])

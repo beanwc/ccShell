@@ -46,6 +46,10 @@ void execute(char * command, char *arg[])
     {
         pwd_command();
     }
+    else if(!strcmp(command, "history"))
+    {
+        history_command();
+    }
     else if(!strcmp(command, "ls"))
     {
         ls_command(command, arg);
