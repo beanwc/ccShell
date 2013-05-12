@@ -42,8 +42,12 @@ void execute(char * command, char *arg[])
     {
         cd_command(arg[0]);
     }
-    else
+    else if(!strcmp(command, "pwd"))
     {
-        system_execute(command, arg);
+        pwd_command();
+    }
+    else if(!strcmp(command, "ls"))
+    {
+        ls_command(command, arg);
     }
 }

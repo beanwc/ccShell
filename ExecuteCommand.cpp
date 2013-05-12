@@ -35,3 +35,40 @@ bool cd_command(char *arg)
     }
     return true;
 }
+
+bool pwd_command()
+{
+	char * path = new char[1024];
+
+	memset(path, '\0', 1024);
+
+	if(getcwd(path,1024) == NULL)
+	{
+        cout<<"Get path failed !"<<endl;
+        return false;
+	}
+	else
+	{
+        cout<<path<<endl;
+        return true;
+	}
+}
+
+bool ls_command(char * command, char *arg[])
+{
+//    int i = 0;
+    char * command_arg = new char[100];
+
+    memset(command_arg, '\0', 100);
+
+//    strcpy(sys_command, command);
+//    while(arg[i])
+//    {
+//        strcat(command_arg, " ");
+//        strcat(command_arg, arg[i]);
+//        i++;
+//    }
+//    execve(command, "a", "l");
+    delete command_arg;
+    return true;
+}

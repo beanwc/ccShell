@@ -20,6 +20,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="CommandParse.cpp" />
+		<Unit filename="CommandParseDef.h" />
+		<Unit filename="ExecuteCommand.cpp" />
+		<Unit filename="ExecuteCommandDef.h" />
+		<Unit filename="ShellInit.cpp" />
+		<Unit filename="ShellInitDef.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

@@ -40,6 +40,7 @@ void replace_username(char path[], char * username)
 char * get_userinfo()
 {
     char * username = NULL;
+    char * position = NULL;
     char host[100], path[1024], result[1200];
     struct group * groupdata;
 
@@ -53,6 +54,14 @@ char * get_userinfo()
     if(-1 == gethostname(host, 100))
     {
         strcpy(host, "localhost");
+    }
+    else
+    {
+        position = strchr(host, '.');
+        if(position)
+		{
+            *position = '\0';
+		}
     }
 
     if(NULL == getcwd(path,1024))
