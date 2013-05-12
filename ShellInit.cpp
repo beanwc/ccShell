@@ -96,7 +96,10 @@ char * get_command()
     command_line = readline(userinfo);
 
     if(command_line && *command_line)
+    {
         add_history(command_line);
+        write_history(HISTORY_FILE);
+    }
 
     return command_line;
 }
