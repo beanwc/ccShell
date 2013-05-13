@@ -29,28 +29,9 @@ void system_execute(char * command, char *arg[])
 
 int cd_command(char * command, char *arg[])
 {
-    struct group * groupdata;
-    char * username = NULL;
-    char * userhome = NULL;
-
-    groupdata = getgrgid(getgid());
-    username = groupdata->gr_name;
-    userhome = (char *)malloc(strlen(username)+6);
-
-    memset(userhome, '\0', strlen(username)+6);
-
     if(NULL == arg[0] || !strcmp(arg[0], "~"))
     {
-        if(0 == strcmp(username, "root"))
-        {
-            strcpy(userhome, "/");
-        }
-        else
-        {
-            strcpy(userhome, "/home/");
-        }
-        strcat(userhome, username);
-        arg[0] = userhome;
+        arg[0] = get_userhome();
     }
     if(chdir(arg[0]))
     {

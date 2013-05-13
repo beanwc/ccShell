@@ -6,13 +6,62 @@
 
 using namespace std;
 
+char * get_userhome()
+{
+    struct group * group_data;
+    char * user_name = NULL;
+    char * user_home = NULL;
+
+    group_data = getgrgid(getgid());
+    user_name = group_data->gr_name;
+    user_home = (char *)malloc(strlen(user_name)+6);
+
+    memset(user_home, '\0', strlen(user_name)+6);
+
+    if(0 == strcmp(user_name, "root"))
+    {
+        strcpy(user_home, "/");
+    }
+    else
+    {
+        strcpy(user_home, "/home/");
+    }
+    strcat(user_home, user_name);
+    strcat(user_home, "/");
+
+    return user_home;
+}
+
+char * get_history_file_path()
+{
+    char * history_file_path = NULL;
+    char * user_home = NULL;
+
+    history_file_path = (char *)malloc(100);
+
+    memset(history_file_path, '\0', 100);
+
+    user_home = get_userhome();
+    strcpy(history_file_path, user_home);
+    strcat(history_file_path, HISTORY_FILE);
+
+    return history_file_path;
+}
+
 void replace_username(char path[], char * username)
 {
-    char result[1024], tmpstr[1025], userhome[strlen(username)+6];
-    char *  position = NULL;
+    char * result = NULL;
+    char * tmpstr = NULL;
+    char * userhome = NULL;
+    char * position = NULL;
+
+    result = (char *)malloc(1024);
+    tmpstr = (char *)malloc(1025);
+    userhome = (char *)malloc(strlen(username) + 6);
 
     memset(result, '\0', 1024);
-    memset(userhome, '\0', strlen(username)+6);
+    memset(tmpstr, '\0', 1025);
+    memset(userhome, '\0', strlen(username) + 6);
 
     if(0 == strcmp(username, "root"))
     {
@@ -42,8 +91,14 @@ char * get_userinfo()
 {
     char * username = NULL;
     char * position = NULL;
-    char host[100], path[1024], result[1200];
+    char * host = NULL;
+    char * path = NULL;
+    char * result = NULL;
     struct group * groupdata;
+
+    host = (char *)malloc(100);
+    path = (char *)malloc(1024);
+    result = (char *)malloc(1200);
 
     memset(host, '\0', 100);
     memset(path, '\0', 1024);
@@ -87,7 +142,9 @@ char * get_command()
 {
     char *command_line = (char *)NULL;
     char * userinfo = NULL;
+    char * history_file_path = NULL;
 
+    history_file_path = get_history_file_path();
     userinfo = get_userinfo();
     if(command_line)
     {
@@ -100,7 +157,7 @@ char * get_command()
     {
         command_line = rm_space(command_line);
         add_history(command_line);
-        write_history(HISTORY_FILE);
+        write_history(history_file_path);
     }
 
     return command_line;
@@ -133,13 +190,21 @@ char * rm_space(char * str)
 
 void history_init()
 {
+    char * history_file_path = NULL;
+
+    history_file_path = get_history_file_path();
+
     using_history();
     stifle_history(MAX_HISTORY);
-    read_history(HISTORY_FILE);
+    read_history(history_file_path);
 }
 
 void history_finish()
 {
-    append_history(history_length, HISTORY_FILE);
-    history_truncate_file(HISTORY_FILE, history_max_entries);
+    char * history_file_path = NULL;
+
+    history_file_path = get_history_file_path();
+
+    append_history(history_length, history_file_path);
+    history_truncate_file(history_file_path, history_max_entries);
 }

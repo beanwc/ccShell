@@ -6,13 +6,17 @@
 #include <readline/history.h>
 
 #define MAX_HISTORY 100
-#define HISTORY_FILE "/tmp/ccShell_history"
+#define HISTORY_FILE ".ccShell_history"
 
-void replace_username();
+char * get_userhome();
+
+char * get_history_file_path();
 
 char * get_userinfo();
 
 char * get_command();
+
+void replace_username();
 
 char * rm_space(char * str);
 
