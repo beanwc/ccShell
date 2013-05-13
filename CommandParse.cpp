@@ -14,7 +14,53 @@ _COMMAND command_list[] = {
     {(char *) NULL, (rl_icpfunc_t *) NULL, (char *) NULL}
 };
 
-void analyse_command(char *command_line)
+
+void readline_init()
+{
+    rl_readline_name = "ccShell";
+    rl_attempted_completion_function = command_complete;
+}
+
+char ** command_complete(const char * text, int start, int end)
+{
+    char ** matches;
+
+    matches = (char **) NULL;
+    if (0 == start)
+    {
+        matches = rl_completion_matches(text, command_produce);
+    }
+
+    return matches;
+}
+
+char * command_produce(const char * text, int state)
+{
+    static int list_index, len;
+    char * command_name = (char *) malloc(100);
+
+    memset(command_name, '\0', 100);
+
+    if (!state)
+    {
+        list_index = 0;
+        len = strlen(text);
+    }
+
+    while (NULL != command_list[list_index].commandName)
+    {
+        strcpy(command_name, command_list[list_index].commandName);
+        list_index++;
+        if (strncmp(command_name, text, len) == 0)
+        {
+            return command_name;
+        }
+    }
+
+    return NULL;
+}
+
+void analyse_command(char * command_line)
 {
     int i = 0, j = 0;
     bool command_flag = true;
@@ -42,10 +88,10 @@ void analyse_command(char *command_line)
         }
     }
 
-    execute(command, arg);
+    execute_command(command, arg);
 }
 
-void execute(char * command, char *arg[])
+void execute_command(char * command, char *arg[])
 {
     if(!strcmp(command, "cd"))
     {
@@ -63,50 +109,4 @@ void execute(char * command, char *arg[])
     {
         ls_command(command, arg);
     }
-}
-
-
-void readline_init()
-{
-    rl_readline_name = "ccShell";
-    rl_attempted_completion_function = command_complete;
-}
-
-char ** command_complete(const char* text, int start, int end)
-{
-    char ** matches;
-
-    matches = (char **) NULL;
-    if (0 == start)
-    {
-        matches = rl_completion_matches(text, command_produce);
-    }
-
-    return matches;
-}
-
-char * command_produce(const char *text, int state)
-{
-    static int list_index, len;
-    char * command_name = (char *) malloc(100);
-
-    memset(command_name, '\0', 100);
-
-    if (!state)
-    {
-        list_index = 0;
-        len = strlen(text);
-    }
-
-    while (NULL != command_list[list_index].commandName)
-    {
-        strcpy(command_name, command_list[list_index].commandName);
-        list_index++;
-        if (strncmp(command_name, text, len) == 0)
-        {
-            return command_name;
-        }
-    }
-
-    return NULL;
 }

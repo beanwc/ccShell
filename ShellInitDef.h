@@ -14,6 +14,8 @@ char * get_userinfo();
 
 char * get_command();
 
+char * rm_space(char * str);
+
 void history_init();
 
 void history_finish();

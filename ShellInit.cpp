@@ -98,11 +98,37 @@ char * get_command()
 
     if(command_line && *command_line)
     {
+        command_line = rm_space(command_line);
         add_history(command_line);
         write_history(HISTORY_FILE);
     }
 
     return command_line;
+}
+
+char * rm_space(char * str)
+{
+    char * str_tmp = NULL;
+    char * position = NULL;
+
+    for (str_tmp = str; isspace(*str_tmp); str_tmp++)
+        ;
+
+    if (*str_tmp == 0)
+    {
+        return (str_tmp);
+    }
+
+    position = str_tmp + strlen(str_tmp) - 1;
+
+    while (position > str_tmp && isspace(*position))
+    {
+        position--;
+    }
+
+    *(++position) = 0;
+
+    return str_tmp;
 }
 
 void history_init()

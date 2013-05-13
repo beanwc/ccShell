@@ -14,12 +14,12 @@ struct _COMMAND
 
 void readline_init();
 
-char ** command_complete(const char* text, int start, int end);
+char ** command_complete(const char * text, int start, int end);
 
 char * command_produce(const char *text, int state);
 
-void analyse_command(char *command_line);
+void analyse_command(char * command_line);
 
-void execute(char * command, char *arg[]);
+void execute_command(char * command, char *arg[]);
 
 #endif // COMMANDPARSEDEF_H_INCLUDED
