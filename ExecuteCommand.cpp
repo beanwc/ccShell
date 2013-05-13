@@ -27,17 +27,41 @@ void system_execute(char * command, char *arg[])
 }
 
 
-int cd_command(char *arg)
+int cd_command(char * command, char *arg[])
 {
-    if( chdir(arg))
+    struct group * groupdata;
+    char * username = NULL;
+    char * userhome = NULL;
+
+    groupdata = getgrgid(getgid());
+    username = groupdata->gr_name;
+    userhome = (char *)malloc(strlen(username)+6);
+
+    memset(userhome, '\0', strlen(username)+6);
+
+    if(NULL == arg[0] || !strcmp(arg[0], "~"))
     {
-        cout<<"ccShell: cd "<<arg<<": No such file or directory !"<<endl;
+        if(0 == strcmp(username, "root"))
+        {
+            strcpy(userhome, "/");
+        }
+        else
+        {
+            strcpy(userhome, "/home/");
+        }
+        strcat(userhome, username);
+        arg[0] = userhome;
+    }
+    if(chdir(arg[0]))
+    {
+        cout<<"ccShell: cd "<<arg[0]<<": No such file or directory!"<<endl;
         return -1;
     }
+
     return 0;
 }
 
-int pwd_command(char *arg)
+int pwd_command(char * command, char *arg[])
 {
 	char * path = (char *) malloc(1024);
 
@@ -45,7 +69,7 @@ int pwd_command(char *arg)
 
 	if(getcwd(path,1024) == NULL)
 	{
-        cout<<"Get path failed !"<<endl;
+        cout<<"ccShell: pwd :Get path failed!"<<endl;
         return -1;
 	}
 	else
@@ -55,7 +79,7 @@ int pwd_command(char *arg)
 	}
 }
 
-int history_command(char *arg)
+int history_command(char * command, char *arg[])
 {
     int i = 0;
     HIST_ENTRY** historylist = NULL;
@@ -66,7 +90,7 @@ int history_command(char *arg)
         i = 0;
         while(historylist[i])
         {
-            printf("%d: %s\n", i, historylist[i]->line);
+            cout<<i<<": "<<historylist[i]->line<<endl;
             i++;
         }
     }

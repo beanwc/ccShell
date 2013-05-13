@@ -11,7 +11,7 @@ _COMMAND command_list[] = {
     {"cd", cd_command, "Change to Dir !"},
     {"pwd", pwd_command, "List files in current Dir !"},
     {"history", history_command, "List history command !"},
-    {(char *) NULL, (rl_icpfunc_t *) NULL, (char *) NULL}
+    {(char *) NULL, (rl_i_cp_cpp_func_t *) NULL, (char *) NULL}
 };
 
 
@@ -67,6 +67,7 @@ void analyse_command(char * command_line)
     char * position = NULL;
     char * command = (char *) malloc(100);
     char * arg[100];
+    _COMMAND * execute_result;
 
     memset(command, '\0', 100);
 
@@ -88,25 +89,29 @@ void analyse_command(char * command_line)
         }
     }
 
-    execute_command(command, arg);
+    execute_result = execute_command(command, arg);
+
+    if (NULL == execute_result)
+    {
+        cout<<"ccShell: "<<command<<": Command not found!"<<endl;
+    }
+    else
+    {
+        (*(execute_result->commandFunction))(command, arg);
+    }
 }
 
-void execute_command(char * command, char *arg[])
+_COMMAND * execute_command(char * command, char *arg[])
 {
-    if(!strcmp(command, "cd"))
-    {
-        cd_command(arg[0]);
+    int i;
+
+    for (i = 0; command_list[i].commandName; i++)
+	{
+		if (strcmp(command, command_list[i].commandName) == 0)
+			{
+                return (&command_list[i]);
+			}
     }
-    else if(!strcmp(command, "pwd"))
-    {
-        pwd_command(arg[0]);
-    }
-    else if(!strcmp(command, "history"))
-    {
-        history_command(arg[0]);
-    }
-    else if(!strcmp(command, "ls"))
-    {
-        ls_command(command, arg);
-    }
+
+    return NULL;
 }

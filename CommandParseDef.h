@@ -3,12 +3,12 @@
 
 #include "ExecuteCommandDef.h"
 
-typedef int rl_icpfunc_t(char *);
+typedef int rl_i_cp_cpp_func_t(char * command, char *arg[]);
 
 struct _COMMAND
 {
     const char * commandName;             // Command name
-    rl_icpfunc_t * commandFunction;         // Function to call to do the command
+    rl_i_cp_cpp_func_t * commandFunction;       // Function to call to do the command
     const char * commandDoc;              // Documentation for command
 };
 
@@ -20,6 +20,6 @@ char * command_produce(const char *text, int state);
 
 void analyse_command(char * command_line);
 
-void execute_command(char * command, char *arg[]);
+_COMMAND * execute_command(char * command, char *arg[]);
 
 #endif // COMMANDPARSEDEF_H_INCLUDED

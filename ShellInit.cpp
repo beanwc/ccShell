@@ -8,24 +8,24 @@ using namespace std;
 
 void replace_username(char path[], char * username)
 {
-    char result[1024], tmpstr[1025], tmpusername[strlen(username)+6];
+    char result[1024], tmpstr[1025], userhome[strlen(username)+6];
     char *  position = NULL;
 
     memset(result, '\0', 1024);
-    memset(tmpusername, '\0', strlen(username)+6);
+    memset(userhome, '\0', strlen(username)+6);
 
     if(0 == strcmp(username, "root"))
     {
-        strcpy(tmpusername, "/");
+        strcpy(userhome, "/");
     }
     else
     {
-        strcpy(tmpusername, "/home/");
+        strcpy(userhome, "/home/");
     }
-    strcat(tmpusername, username);
+    strcat(userhome, username);
 
     strcpy(tmpstr,path);
-    position = strstr(path, tmpusername);
+    position = strstr(path, userhome);
     if(NULL != position)
     {
         while(NULL != path && path != position)
@@ -34,7 +34,7 @@ void replace_username(char path[], char * username)
         }
         path[0]='\0';
         strcat(path, "~");
-        strcat(path, strstr(tmpstr,tmpusername) + strlen(tmpusername));
+        strcat(path, strstr(tmpstr,userhome) + strlen(userhome));
     }
 }
 
@@ -50,7 +50,7 @@ char * get_userinfo()
     memset(result, '\0', 1200);
 
     groupdata = getgrgid(getgid());
-    username=groupdata->gr_name;
+    username = groupdata->gr_name;
 
     if(-1 == gethostname(host, 100))
     {
