@@ -3,7 +3,6 @@
 #include <stdlib.h>
 
 #include "CommandParseDef.h"
-#include "ShellInitDef.h"
 
 using namespace std;
 
@@ -89,7 +88,7 @@ void analyse_command(char * command_line)
         }
     }
 
-    execute_result = execute_command(command, arg);
+    execute_result = get_execute_handle(command, arg);
 
     if (NULL == execute_result)
     {
@@ -101,7 +100,7 @@ void analyse_command(char * command_line)
     }
 }
 
-_COMMAND * execute_command(char * command, char *arg[])
+_COMMAND * get_execute_handle(char * command, char *arg[])
 {
     int i;
 

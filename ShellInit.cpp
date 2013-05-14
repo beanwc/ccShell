@@ -208,3 +208,20 @@ void history_finish()
     append_history(history_length, history_file_path);
     history_truncate_file(history_file_path, history_max_entries);
 }
+
+
+void last_dir_init()
+{
+    last_dir = (char *)malloc(1024);
+
+    memset(last_dir, '\0', 1024);
+
+    getcwd(last_dir, 1024);
+}
+
+void environment_init()
+{
+    history_init();
+    readline_init();
+    last_dir_init();
+}

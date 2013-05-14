@@ -10,8 +10,7 @@ int main()
 {
     char *command_line = NULL;
 
-    history_init();
-    readline_init();
+    environment_init();
 
     while(true)
     {

@@ -12,14 +12,12 @@ struct _COMMAND
     const char * commandDoc;              // Documentation for command
 };
 
-void readline_init();
-
 char ** command_complete(const char * text, int start, int end);
 
 char * command_produce(const char *text, int state);
 
 void analyse_command(char * command_line);
 
-_COMMAND * execute_command(char * command, char *arg[]);
+_COMMAND * get_execute_handle(char * command, char *arg[]);
 
 #endif // COMMANDPARSEDEF_H_INCLUDED
