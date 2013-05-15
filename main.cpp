@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 
 #include "ShellInitDef.h"
 #include "ExecuteCommandDef.h"

@@ -3,7 +3,7 @@
 
 #include "ExecuteCommandDef.h"
 
-typedef int rl_i_cp_cpp_func_t(char * command, char *arg[]);
+typedef int rl_i_cp_cpp_func_t(char * command, char ** arg);
 
 struct _COMMAND
 {
@@ -12,12 +12,23 @@ struct _COMMAND
     const char * commandDoc;              // Documentation for command
 };
 
+extern "C"
+{
+    extern char ** get_command_arg(char * command_line);
+}
+
 char ** command_complete(const char * text, int start, int end);
 
 char * command_produce(const char *text, int state);
 
+_COMMAND * get_execute_handle(char * command);
+
 void analyse_command(char * command_line);
 
-_COMMAND * get_execute_handle(char * command, char *arg[]);
+void analyse_pipe_command(char * command, char ** arg);
+
+int analyse_redirect_command(char * command, char ** arg, int * redirect_arg);
+
+int execute_command(char * command, char ** arg, int prefd[], int postfd[]);
 
 #endif // COMMANDPARSEDEF_H_INCLUDED

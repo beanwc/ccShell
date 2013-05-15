@@ -1,6 +1,7 @@
 # depslib dependency file v1.0
-1368571359 source:/home/bean/workplace/ccShell/main.cpp
+1368577436 source:/home/bean/workplace/ccShell/main.cpp
 	<iostream>
+	<stdlib.h>
 	"ShellInitDef.h"
 	"ExecuteCommandDef.h"
 	"CommandParseDef.h"
@@ -16,16 +17,17 @@
 	<stdlib.h>
 	"ShellInitDef.h"
 
-1368574584 source:/home/bean/workplace/ccShell/ExecuteCommand.cpp
+1368623377 source:/home/bean/workplace/ccShell/ExecuteCommand.cpp
 	<iostream>
 	<stdlib.h>
 	<string.h>
 	<stdio.h>
+	<sys/wait.h>
 	"ExecuteCommandDef.h"
 
 1367667591 /home/bean/workplace/ccShell/ExecuteCommand.h
 
-1368573679 /home/bean/workplace/ccShell/ExecuteCommandDef.h
+1368623388 /home/bean/workplace/ccShell/ExecuteCommandDef.h
 	"ShellInitDef.h"
 
 1368574215 /home/bean/workplace/ccShell/ShellInitDef.h
@@ -34,17 +36,34 @@
 	<readline/history.h>
 	"GlobalVar.h"
 
-1368573677 source:/home/bean/workplace/ccShell/CommandParse.cpp
+1368623558 source:/home/bean/workplace/ccShell/CommandParse.cpp
 	<iostream>
 	<string.h>
 	<stdlib.h>
+	<sys/wait.h>
 	"CommandParseDef.h"
 
-1368573532 /home/bean/workplace/ccShell/CommandParseDef.h
+1368623061 /home/bean/workplace/ccShell/CommandParseDef.h
 	"ExecuteCommandDef.h"
 
 1368574063 /home/bean/workplace/ccShell/GlobalVar.h
 
 1368574126 source:/home/bean/workplace/ccShell/GlobalVar.cpp
 	"GlobalVar.h"
+
+1368580668 source:/home/bean/workplace/ccShell/command.lex.yy.c
+	<stdio.h>
+	<string.h>
+	<errno.h>
+	<stdlib.h>
+	<inttypes.h>
+	<unistd.h>
+
+1368623808 source:/home/bean/workplace/ccShell/lex.yy.c
+	<stdio.h>
+	<string.h>
+	<errno.h>
+	<stdlib.h>
+	<inttypes.h>
+	<unistd.h>
 
