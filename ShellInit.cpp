@@ -219,9 +219,23 @@ void last_dir_init()
     getcwd(last_dir, 1024);
 }
 
+void variable_init()
+{
+    int i = 0;
+
+    for(; i < MAX_VAR_NUM; i++)
+    {
+        variable[i].variable_name = NULL;
+        variable[i].variable_value = NULL;
+    }
+    variable_count = 0;
+}
+
 void environment_init()
 {
     history_init();
     readline_init();
     last_dir_init();
+    variable_init();
+    init_arg();
 }

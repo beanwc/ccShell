@@ -5,10 +5,15 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-#include "GlobalVar.h"
+#include "GlobalVarDef.h"
 
 #define MAX_HISTORY 100
 #define HISTORY_FILE ".ccShell_history"
+
+extern "C"
+{
+    extern void init_arg();
+}
 
 char * get_userhome();
 
@@ -23,6 +28,8 @@ void replace_username();
 char * rm_space(char * str);
 
 void last_dir_init();
+
+void variable_init();
 
 void history_init();
 

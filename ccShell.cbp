@@ -25,9 +25,13 @@
 		<Unit filename="ExecuteCommand.cpp" />
 		<Unit filename="ExecuteCommandDef.h" />
 		<Unit filename="GlobalVar.cpp" />
-		<Unit filename="GlobalVar.h" />
+		<Unit filename="GlobalVarDef.h" />
 		<Unit filename="ShellInit.cpp" />
 		<Unit filename="ShellInitDef.h" />
+		<Unit filename="command_lex.l" />
+		<Unit filename="lex.yy.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

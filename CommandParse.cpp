@@ -5,14 +5,18 @@
 #include <sys/wait.h>
 
 #include "CommandParseDef.h"
+#include "GlobalVarDef.h"
 
 using namespace std;
 
 
 _COMMAND command_list[] = {
-    {"cd", cd_command, "Change to Dir !"},
-    {"pwd", pwd_command, "List files in current Dir !"},
-    {"history", history_command, "List history command !"},
+    {"cd", cd_command, "     Change to Dir!"},
+    {"echo", echo_command, "   Print the string or the value of variable!"},
+    {"help", help_command, "   Print help information!"},
+    {"history", history_command, "List history command!"},
+    {"pwd", pwd_command, "    List files in current Dir!"},
+    {"unset", unset_command, "  Reset user's builtin variable!"}
     {(char *) NULL, (rl_i_cp_cpp_func_t *) NULL, (char *) NULL}
 };
 
@@ -79,11 +83,44 @@ _COMMAND * get_execute_handle(char * command)
 
 void analyse_command(char * command_line)
 {
+    int i = 0;
+	int j = 0;
+	char * strtmp;
     char ** arg;
 
     arg = get_command_arg(command_line);
+//
+//    int k = 0;
+//    while (arg[k])
+//    {
+//        cout<<k<<" :"<<arg[k]<<endl;
+//        k++;
+//    }
 
-    analyse_pipe_command(arg[0], arg);
+  	while(arg[i])
+	{
+		if(strcmp(arg[i], ";") == 0)
+		{
+			strtmp = arg[i];
+			arg[i] = 0;
+			analyse_pipe_command((arg+j)[0], arg+j);
+			arg[i] = strtmp;
+			j = ++i;
+		}
+		else
+		{
+			i++;
+		}
+	}
+	analyse_pipe_command((arg+j)[0], arg+j);
+//
+//    int x = 0;
+//    for (; x < variable_count; x++)
+//    {
+//        cout<<variable[x].variable_name<<" = "<<variable[x].variable_value<<endl;
+//    }
+
+	reset_arg();
 }
 
 void analyse_pipe_command(char * command, char ** arg)
@@ -244,6 +281,10 @@ int execute_command(char * command, char ** arg, int prefd[], int postfd[])
 		if(search_command_file_path(command, command_file_path))
         {
             execv(command_file_path, arg);
+        }
+        if(assignment(arg))
+        {
+            return 0;
         }
 		else
         {

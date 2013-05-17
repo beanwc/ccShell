@@ -15,6 +15,7 @@ struct _COMMAND
 extern "C"
 {
     extern char ** get_command_arg(char * command_line);
+    extern void reset_arg();
 }
 
 char ** command_complete(const char * text, int start, int end);
