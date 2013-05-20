@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1369083368 source:/home/bean/workplace/ccShell/yacc/BuiltinVar.c
+
+1369083173 source:/home/bean/workplace/ccShell/yacc/Math.c
+
+1369083156 source:/home/bean/workplace/ccShell/yacc/Symbol.c
+
+1369083368 source:/home/bean/workplace/ccShell/yacc/BuiltinVar.cpp
+
+1369083173 source:/home/bean/workplace/ccShell/yacc/Math.cpp
+
+1369084020 source:/home/bean/workplace/ccShell/yacc/main.cpp
+	<iostream>
+
+1369085548 source:/home/bean/workplace/ccShell/yacc/Symbol.cpp
+	<iostream>
+	<string.h>
+	<stdlib.h>
+	"DataStruct.h"
+
+1369087537 /home/bean/workplace/ccShell/yacc/DataStruct.h
+

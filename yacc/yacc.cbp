@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="ccShell" />
+		<Option title="yacc" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/ccShell" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/yacc" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -20,18 +20,18 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="CommandParse.cpp" />
-		<Unit filename="CommandParseDef.h" />
-		<Unit filename="ExecuteCommand.cpp" />
-		<Unit filename="ExecuteCommandDef.h" />
-		<Unit filename="GlobalVar.cpp" />
-		<Unit filename="GlobalVarDef.h" />
-		<Unit filename="ShellInit.cpp" />
-		<Unit filename="ShellInitDef.h" />
-		<Unit filename="command_lex.l" />
-		<Unit filename="lex.command.c">
+		<Unit filename="BuiltinVar.cpp">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="DataStruct.h" />
+		<Unit filename="Math.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Symbol.cpp">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="code_yacc.h" />
+		<Unit filename="code_yacc.y" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
