@@ -29,7 +29,7 @@
 		<Unit filename="ShellInit.cpp" />
 		<Unit filename="ShellInitDef.h" />
 		<Unit filename="command_lex.l" />
-		<Unit filename="lex.yy.c">
+		<Unit filename="lex.command.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="main.cpp" />

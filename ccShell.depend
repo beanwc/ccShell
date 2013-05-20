@@ -17,7 +17,7 @@
 	<stdlib.h>
 	"ShellInitDef.h"
 
-1368753977 source:/home/bean/workplace/ccShell/ExecuteCommand.cpp
+1369092542 source:/home/bean/workplace/ccShell/ExecuteCommand.cpp
 	<iostream>
 	<stdlib.h>
 	<string.h>
@@ -27,7 +27,7 @@
 
 1367667591 /home/bean/workplace/ccShell/ExecuteCommand.h
 
-1368753917 /home/bean/workplace/ccShell/ExecuteCommandDef.h
+1369092542 /home/bean/workplace/ccShell/ExecuteCommandDef.h
 	"ShellInitDef.h"
 	"CommandParseDef.h"
 
@@ -37,7 +37,7 @@
 	<readline/history.h>
 	"GlobalVarDef.h"
 
-1368778672 source:/home/bean/workplace/ccShell/CommandParse.cpp
+1369092542 source:/home/bean/workplace/ccShell/CommandParse.cpp
 	<iostream>
 	<stdio.h>
 	<string.h>
@@ -47,7 +47,7 @@
 	"CommandParseDef.h"
 	"GlobalVarDef.h"
 
-1368755775 /home/bean/workplace/ccShell/CommandParseDef.h
+1369057573 /home/bean/workplace/ccShell/CommandParseDef.h
 	"ExecuteCommandDef.h"
 
 1368715634 /home/bean/workplace/ccShell/GlobalVar.h
@@ -74,4 +74,14 @@
 	<unistd.h>
 
 1368717119 /home/bean/workplace/ccShell/GlobalVarDef.h
+
+1369092684 source:/home/bean/workplace/ccShell/lex.command.c
+	<stdio.h>
+	<string.h>
+	<errno.h>
+	<stdlib.h>
+	<inttypes.h>
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
 

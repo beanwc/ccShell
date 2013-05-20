@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define YY_DECL int yy_command_lex(void)
+
 int _argnum = 100;
 char *_arg[100];
 int _argcount = 0;
@@ -37,7 +39,7 @@ VALUE   [^ \t\n|<>;"&=]+
 
 char **get_command_arg(char * command_line, int * arg_count) {
 	yy_scan_string(command_line);
-	yylex();
+	yy_command_lex();
 	*arg_count = _argcount;
   	return _arg;
 }

@@ -456,6 +456,8 @@ char *yytext;
 #include <stdio.h>
 #include <stdlib.h>
 
+#define YY_DECL int yy_command_lex(void)
+
 int _argnum = 100;
 char *_arg[100];
 int _argcount = 0;
@@ -468,7 +470,7 @@ void reset_arg();
 extern char * get_variable_value(char * variable_name);
 
 
-#line 472 "lex.yy.c"
+#line 474 "lex.yy.c"
 
 #define INITIAL 0
 #define QUOTE 1
@@ -652,10 +654,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 24 "command_lex.l"
+#line 26 "command_lex.l"
 
 
-#line 659 "lex.yy.c"
+#line 661 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -740,7 +742,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 26 "command_lex.l"
+#line 28 "command_lex.l"
 {
 	  add_arg(yytext);
 	}
@@ -748,25 +750,25 @@ YY_RULE_SETUP
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 30 "command_lex.l"
+#line 32 "command_lex.l"
 return (int)_arg;
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 32 "command_lex.l"
+#line 34 "command_lex.l"
 
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 34 "command_lex.l"
+#line 36 "command_lex.l"
 ;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 36 "command_lex.l"
+#line 38 "command_lex.l"
 ECHO;
 	YY_BREAK
-#line 770 "lex.yy.c"
+#line 772 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(QUOTE):
 case YY_STATE_EOF(SINGQUOTE):
@@ -1766,13 +1768,13 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 36 "command_lex.l"
+#line 38 "command_lex.l"
 
 
 
 char **get_command_arg(char * command_line, int * arg_count) {
 	yy_scan_string(command_line);
-	yylex();
+	yy_command_lex();
 	*arg_count = _argcount;
   	return _arg;
 }
