@@ -28,8 +28,12 @@
 		<Unit filename="GlobalVarDef.h" />
 		<Unit filename="ShellInit.cpp" />
 		<Unit filename="ShellInitDef.h" />
+		<Unit filename="code_lex.l" />
 		<Unit filename="command_lex.l" />
-		<Unit filename="lex.yy.c">
+		<Unit filename="lex.code.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="lex.command.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="main.cpp" />

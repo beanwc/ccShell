@@ -7,6 +7,8 @@
 
 int cd_command(int arg_count, char ** arg);
 
+int ccShell_command(int arg_count, char ** arg);
+
 int pwd_command(int arg_count, char ** arg);
 
 int echo_command(int arg_count, char ** arg);

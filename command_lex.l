@@ -11,7 +11,6 @@ void add_value(char * arg);
 void init_arg();
 void reset_arg();
 
-extern char * get_variable_value(char * variable_name);
 %}
 
 %x		QUOTE

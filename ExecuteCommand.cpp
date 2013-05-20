@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <fcntl.h>
 #include <string.h>
 #include <stdio.h>
 #include <sys/wait.h>
@@ -31,10 +32,60 @@ int cd_command(int arg_count, char ** arg)
 
     if(chdir(arg[1]))
     {
-        cout<<"ccShell: cd "<<arg[0]<<": No such file or directory!"<<endl;
+        cout<<"ccShell :cd "<<arg[0]<<":No such file or directory!"<<endl;
         return -1;
     }
 
+    return 0;
+}
+
+int ccShell_command(int arg_count, char ** arg)
+{
+    int i = 0, j = 0, open_file_result = 0, read_file_result = 0;
+    char * file_buffer = NULL;
+    int code_arg_count;
+    char ** code_arg;
+
+//    cout<<"arg_count :"<<arg_count<<endl;
+//    for(i = 0; i < arg_count; i++)
+//    {
+//        cout<<"arg["<<i<<"] :"<<arg[i]<<endl;
+//    }
+    for(i = 1; i < arg_count; i++)
+    {
+        open_file_result = open(arg[i], O_RDONLY);
+        if(open_file_result != -1)
+        {
+            file_buffer = (char *)malloc(1024);
+            memset(file_buffer, '\0', 1024);
+            read_file_result = read(open_file_result, file_buffer, 1024);
+            if(-1 == read_file_result)
+            {
+                cout<<"ccShell :File read failed--"<<arg[i]<<"!"<<endl;
+            }
+            else if(0 == read_file_result)
+            {
+                cout<<"ccShell :File is empty--"<<arg[i]<<"!"<<endl;
+            }
+            else
+            {
+//                code_arg = get_code_arg(file_buffer, &code_arg_count);
+//                for(j = 0; j < code_arg_count; j++)
+//                {
+//                    cout<<"code_arg["<<j<<"] :"<<code_arg[j]<<endl;
+//                }
+                cout<<file_buffer<<endl;
+            }
+            if(-1 == close(open_file_result))
+            {
+                cout<<"ccShell :File close failed--"<<arg[i]<<"!"<<endl;
+            }
+        }
+        else
+        {
+            cout<<"ccShell :File open failed--"<<arg[i]<<"!"<<endl;
+        }
+    }
     return 0;
 }
 
@@ -46,7 +97,7 @@ int pwd_command(int arg_count, char ** arg)
 
 	if(getcwd(path,1024) == NULL)
 	{
-        cout<<"ccShell: pwd :Get path failed!"<<endl;
+        cout<<"ccShell :pwd :Get path failed!"<<endl;
         return -1;
 	}
 	else
