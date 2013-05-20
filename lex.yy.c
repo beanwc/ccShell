@@ -742,7 +742,7 @@ case 1:
 YY_RULE_SETUP
 #line 26 "command_lex.l"
 {
-	  add_value(yytext);
+	  add_arg(yytext);
 	}
 	YY_BREAK
 case 2:
@@ -1770,9 +1770,10 @@ void yyfree (void * ptr )
 
 
 
-char **get_command_arg(char * command_line) {
+char **get_command_arg(char * command_line, int * arg_count) {
 	yy_scan_string(command_line);
 	yylex();
+	*arg_count = _argcount;
   	return _arg;
 }
 
@@ -1791,64 +1792,6 @@ void add_arg(char * arg)
     }
 }
 
-void add_value(char * arg)
-{
-    int arg_length = 0;
-    int i = 0, j = 0, k = 0;
-    char buffer[100], arg_tmp[100];
-
-    arg_length = strlen(arg);
-
-	for(i = 0; i < arg_length; i++)
-	{
-		if(arg[i] == '$')
-		{
-            if(arg[i+1] == 0)                      //arg == "$"
-			{
-				buffer[k] = '$';
-				k++;
-				break;
-            }
-			else if(arg[i+1] == '$')               //arg == "$$"
-			{
-				int pid = getpid();
-				sprintf(buffer+k, "%d", pid);
-				k = strlen(buffer);
-				i++;
-			}
-			else
-			{
-				for(j = i+1; j < arg_length; j++)
-				{
-					if(arg[j] == '$')
-						break;
-					arg_tmp[j-i-1] = arg[j];
-				}
-				arg_tmp[j-i-1] = 0;
-				i = j-1;
-				if((arg = getenv(arg_tmp)))
-                {
-					strcpy(buffer+k, arg);
-					k += strlen(arg);
-				}
-				else if((arg = get_variable_value(arg_tmp)))
-				{
-					strcpy(buffer+k, arg);
-					k += strlen(arg);
-				}
-			}
-		}
-		else
-		{
-			buffer[k] = arg[i];
-			k++;
-		}
-	}
-	buffer[k] = 0;
-	if(k > 0)
-		add_arg(buffer);
-}
-
 void init_arg()
 {
     int i = 0 ;
@@ -1863,7 +1806,8 @@ void reset_arg()
 {
 	for(; _argcount > 0; _argcount--) {
 		free(_arg[_argcount]);
-		_arg[_argcount] = 0;
+		_arg[_argcount] = NULL;
 	}
+	_argcount = 0;
 }
 

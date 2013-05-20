@@ -5,17 +5,17 @@
 #include "CommandParseDef.h"
 
 
-int cd_command(char * command, char ** arg);
+int cd_command(int arg_count, char ** arg);
 
-int pwd_command(char * command, char ** arg);
+int pwd_command(int arg_count, char ** arg);
 
-int echo_command(char * command, char ** arg);
+int echo_command(int arg_count, char ** arg);
 
-int help_command(char * command, char ** arg);
+int help_command(int arg_count, char ** arg);
 
-int unset_command(char * command, char ** arg);
+int unset_command(int arg_count, char ** arg);
 
-int history_command(char * command, char ** arg);
+int history_command(int arg_count, char ** arg);
 
 bool assignment(char ** arg);
 

@@ -10,7 +10,7 @@ using namespace std;
 
 extern _COMMAND command_list[];
 
-int cd_command(char * command, char ** arg)
+int cd_command(int arg_count, char ** arg)
 {
     char * current_dir = (char *)malloc(1024);
 
@@ -38,7 +38,7 @@ int cd_command(char * command, char ** arg)
     return 0;
 }
 
-int pwd_command(char * command, char ** arg)
+int pwd_command(int arg_count, char ** arg)
 {
 	char * path = (char *) malloc(1024);
 
@@ -56,7 +56,7 @@ int pwd_command(char * command, char ** arg)
 	}
 }
 
-int echo_command(char * command, char ** arg)
+int echo_command(int arg_count, char ** arg)
 {
     int i = 1;
     while(arg[i])
@@ -68,26 +68,43 @@ int echo_command(char * command, char ** arg)
     return 0;
 }
 
-int unset_command(char * command, char ** arg)
+int unset_command(int arg_count, char ** arg)
 {
     int i = 0;
+    char * variable_tmp;
 
-    for(; i < variable_count; i++)
+    variable_tmp = (char *)malloc(sizeof(arg[1]));
+    memset(variable_tmp, '\0', sizeof(arg[1]));
+
+    if(arg[1][0] !='$' && !arg[1][1])
     {
-        if(0 == strcmp(variable[i].variable_name, arg[1]))
+        cout<<"ccShell :unset :Invalid variable name!"<<endl;
+        return -1;
+    }
+    else
+    {
+        for(i = 1; arg[1][i] != 0; i++)
         {
-            delete variable[i].variable_name;
-            delete variable[i].variable_value;
-            variable[i].variable_name = NULL;
-            variable[i].variable_value = NULL;
-            variable_count--;
-            return 0;
+            variable_tmp[i-1] = arg[1][i];
+        }
+
+        for(i = 0; i < variable_count; i++)
+        {
+            if(0 == strcmp(variable[i].variable_name, variable_tmp))
+            {
+                free(variable[i].variable_name);
+                free(variable[i].variable_value);
+                variable[i].variable_name = NULL;
+                variable[i].variable_value = NULL;
+                variable_count--;
+                return 0;
+            }
         }
     }
     return 0;
 }
 
-int help_command(char * command, char ** arg)
+int help_command(int arg_count, char ** arg)
 {
     int i = 0;
     cout<<"----------------------The Builtin Command Help Information----------------------"<<endl;
@@ -101,7 +118,7 @@ int help_command(char * command, char ** arg)
     return 0;
 }
 
-int history_command(char * command, char ** arg)
+int history_command(int arg_count, char ** arg)
 {
     int i = 0;
     HIST_ENTRY** historylist = NULL;

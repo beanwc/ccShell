@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -16,7 +17,7 @@ _COMMAND command_list[] = {
     {"help", help_command, "   Print help information!"},
     {"history", history_command, "List history command!"},
     {"pwd", pwd_command, "    List files in current Dir!"},
-    {"unset", unset_command, "  Reset user's builtin variable!"}
+    {"unset", unset_command, "  Reset user's builtin variable!"},
     {(char *) NULL, (rl_i_cp_cpp_func_t *) NULL, (char *) NULL}
 };
 
@@ -85,10 +86,11 @@ void analyse_command(char * command_line)
 {
     int i = 0;
 	int j = 0;
+	int arg_count;
 	char * strtmp;
     char ** arg;
 
-    arg = get_command_arg(command_line);
+    arg = get_command_arg(command_line, &arg_count);
 //
 //    int k = 0;
 //    while (arg[k])
@@ -103,7 +105,7 @@ void analyse_command(char * command_line)
 		{
 			strtmp = arg[i];
 			arg[i] = 0;
-			analyse_pipe_command((arg+j)[0], arg+j);
+			analyse_pipe_command(i-j, arg+j);
 			arg[i] = strtmp;
 			j = ++i;
 		}
@@ -112,7 +114,7 @@ void analyse_command(char * command_line)
 			i++;
 		}
 	}
-	analyse_pipe_command((arg+j)[0], arg+j);
+	analyse_pipe_command(i-j, arg+j);
 //
 //    int x = 0;
 //    for (; x < variable_count; x++)
@@ -123,7 +125,7 @@ void analyse_command(char * command_line)
 	reset_arg();
 }
 
-void analyse_pipe_command(char * command, char ** arg)
+void analyse_pipe_command(int arg_count, char ** arg)
 {
     int i = 0, j = 0;
 	int prefd[2];
@@ -142,11 +144,11 @@ void analyse_pipe_command(char * command, char ** arg)
 
 			if(prepipe)
             {
-                execute_command((arg+j)[0], arg+j, prefd, postfd);
+                execute_command(i-j, arg+j, prefd, postfd);
             }
 			else
 			{
-            	execute_command((arg+j)[0], arg+j, 0, postfd);
+            	execute_command(i-j, arg+j, 0, postfd);
 			}
 			arg[i] = strtmp;
 			prepipe = true;
@@ -161,19 +163,19 @@ void analyse_pipe_command(char * command, char ** arg)
 	}
 	if(prepipe)
 	{
-        execute_command((arg+j)[0], arg+j, prefd, 0);
+        execute_command(i-j, arg+j, prefd, 0);
 	}
 	else
     {
-        execute_command((arg+j)[0], arg+j, 0, 0);
+        execute_command(i-j, arg+j, 0, 0);
     }
 }
 
-int analyse_redirect_command(char * command, char ** arg, int * redirect_arg)
+int analyse_redirect_command(int arg_count, char ** arg, int * redirect_arg)
 {
     int i;
 	int redirect = 0;
-	for(i = 1; NULL != arg[i]; i++)
+	for(i = 1; i < arg_count; i++)
 	{
 		if(strcmp(arg[i], "<") == 0)
 		{
@@ -225,7 +227,7 @@ int analyse_redirect_command(char * command, char ** arg, int * redirect_arg)
 	return 0;
 }
 
-int execute_command(char * command, char ** arg, int prefd[], int postfd[])
+int execute_command(int arg_count, char ** arg, int prefd[], int postfd[])
 {
     char * command_file_path = NULL;
     int pid = 0;
@@ -235,14 +237,21 @@ int execute_command(char * command, char ** arg, int prefd[], int postfd[])
 	command_file_path = (char *)malloc(1024);
     memset(command_file_path, '\0', 1024);
 
-	if(arg == 0)
-		return 0;
+	if(arg_count == 0)
+	{
+        return 0;
+    }
+
+    if(strcmp(arg[0], "unset"))
+    {
+        analyse_variable_command(arg_count, arg);
+    }
 
 	if(prefd == 0 && postfd == 0)
 	{
-		if((execute_result = get_execute_handle(command)))
+		if((execute_result = get_execute_handle(arg[0])))
 		{
-			(*(execute_result->commandFunction))(command, arg);
+			(*(execute_result->commandFunction))(arg_count, arg);
 			return 0;
 		}
 	}
@@ -251,7 +260,7 @@ int execute_command(char * command, char ** arg, int prefd[], int postfd[])
 		int redirect = 0;
 		signal(SIGINT, SIG_DFL);
 
-		if(analyse_redirect_command(command, arg, &redirect))
+		if(analyse_redirect_command(arg_count, arg, &redirect))
 			exit(1);
 
 		if(redirect != 1 && prefd)
@@ -272,13 +281,13 @@ int execute_command(char * command, char ** arg, int prefd[], int postfd[])
 			}
 		}
 
-		if((execute_result = get_execute_handle(command)))
+		if((execute_result = get_execute_handle(arg[0])))
 		{
-			(*(execute_result->commandFunction))(command, arg);
+			(*(execute_result->commandFunction))(arg_count, arg);
 			return 0;
 		}
 
-		if(search_command_file_path(command, command_file_path))
+		if(search_command_file_path(arg[0], command_file_path))
         {
             execv(command_file_path, arg);
         }
@@ -288,7 +297,7 @@ int execute_command(char * command, char ** arg, int prefd[], int postfd[])
         }
 		else
         {
-			cout<<"ccShell: "<<command<<": Command not found!"<<endl;
+			cout<<"ccShell: "<<arg[0]<<": Command not found!"<<endl;
             exit(0);
 		}
 	}
@@ -299,3 +308,69 @@ int execute_command(char * command, char ** arg, int prefd[], int postfd[])
 	}
 	return 0;
 }
+
+int analyse_variable_command(int arg_count, char ** arg)
+{
+    int i = 0, j = 0, k = 0;
+    char * value, * buffer, * arg_tmp, * variable_tmp;
+
+    buffer = (char *)malloc(1024);
+    arg_tmp = (char *)malloc(1024);
+    variable_tmp = (char *)malloc(1024);
+
+    memset(buffer, '\0', 1024);
+    memset(arg_tmp, '\0', 1024);
+    memset(variable_tmp, '\0', 1024);
+
+	for(i = 1; i < arg_count; i++)
+	{
+		if(arg[i][0] == '$')
+		{
+            if(arg[i][1] == 0)                      //arg == "$"
+			{
+                i++;
+				break;
+            }
+			else if(arg[i][1] == '$')               //arg == "$$"
+			{
+				int pid = getpid();
+				sprintf(buffer, "%s%d", "pid :", pid);
+				strcpy(variable_tmp, buffer);
+				free(arg[i]);
+				arg[i] = variable_tmp;
+				i++;
+				break;
+			}
+			else
+			{
+				for(j = 1; j < arg_count; j++)
+				{
+					if(arg[i][j] == '$')
+						break;
+					for(k = 1; arg[i][k] != 0; k++)
+					{
+                        arg_tmp[k-1] = arg[i][k];
+					}
+				}
+				if((value = get_variable_value(arg_tmp)))
+                {
+					strcpy(variable_tmp, value);
+				}
+				else if((value = getenv(arg_tmp)))
+				{
+                    strcpy(variable_tmp, value);
+				}
+				free(arg[i]);
+				arg[i] = variable_tmp;
+				i++;
+			}
+		}
+		else
+		{
+			i++;
+		}
+	}
+
+	return 0;
+}
+
