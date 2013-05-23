@@ -1,27 +1,25 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
+    #include <stdio.h>
+    #include <stdlib.h>
 
-#define YY_DECL int yy_command_lex(void)
+    #define YY_DECL int yy_command_lex(void)
 
-int _argnum = 100;
-char *_arg[100];
-int _argcount = 0;
+    int _argnum = 1024;
+    char *_arg[1024];
+    int _argcount = 0;
 
-void add_arg(char * arg);
-void add_value(char * arg);
-void init_arg();
-void reset_arg();
-
-extern char * get_variable_value(char * variable_name);
+    void add_arg(char * arg);
+    void add_value(char * arg);
+    void init_arg();
+    void reset_arg();
 %}
 
 %x		QUOTE
 %x		SINGQUOTE
 
 WORD    [a-zA-Z0-9\/\.\-\_]+
-SPECIAL	[()><|&;!*=]
-VALUE   [^ \t\n|<>;"&=]+
+SPECIAL	[()><|&;!=*]
+VALUE   [^ \t\n|<>;"&=+*]+
 
 %%
 
@@ -37,13 +35,20 @@ VALUE   [^ \t\n|<>;"&=]+
 
 %%
 
-char **get_command_arg(char * command_line, int * arg_count) {
+char **get_command_arg(char * command_line, int * arg_count)
+{
 	yy_scan_string(command_line);
 	yy_command_lex();
 	*arg_count = _argcount;
   	return _arg;
 }
-
+/*
+char **get_code_arg(int * arg_count)
+{
+	*arg_count = _argcount;
+    return _arg;
+}
+*/
 void add_arg(char * arg)
 {
     if(_argcount < _argnum)

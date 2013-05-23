@@ -13,6 +13,7 @@ using namespace std;
 
 _COMMAND command_list[] = {
     {"cd", cd_command, "     Change to Dir!"},
+    {"ccShell", ccShell_command, "Interpretive execution shell code!"},
     {"echo", echo_command, "   Print the string or the value of variable!"},
     {"help", help_command, "   Print help information!"},
     {"history", history_command, "List history command!"},

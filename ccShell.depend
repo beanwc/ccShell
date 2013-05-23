@@ -17,17 +17,18 @@
 	<stdlib.h>
 	"ShellInitDef.h"
 
-1369092542 source:/home/bean/workplace/ccShell/ExecuteCommand.cpp
+1369103362 source:/home/bean/workplace/ccShell/ExecuteCommand.cpp
 	<iostream>
 	<stdlib.h>
 	<string.h>
 	<stdio.h>
+	<fcntl.h>
 	<sys/wait.h>
 	"ExecuteCommandDef.h"
 
 1367667591 /home/bean/workplace/ccShell/ExecuteCommand.h
 
-1369092542 /home/bean/workplace/ccShell/ExecuteCommandDef.h
+1369275799 /home/bean/workplace/ccShell/ExecuteCommandDef.h
 	"ShellInitDef.h"
 	"CommandParseDef.h"
 
@@ -37,7 +38,7 @@
 	<readline/history.h>
 	"GlobalVarDef.h"
 
-1369092542 source:/home/bean/workplace/ccShell/CommandParse.cpp
+1369097973 source:/home/bean/workplace/ccShell/CommandParse.cpp
 	<iostream>
 	<stdio.h>
 	<string.h>
@@ -63,19 +64,19 @@
 	<inttypes.h>
 	<unistd.h>
 
-1368776932 source:/home/bean/workplace/ccShell/lex.yy.c
+1369115947 source:/home/bean/workplace/ccShell/lex.yy.c
 	<stdio.h>
 	<string.h>
 	<errno.h>
 	<stdlib.h>
 	<inttypes.h>
-	<stdio.h>
 	<stdlib.h>
+	"code_yacc.tab.c"
 	<unistd.h>
 
 1368717119 /home/bean/workplace/ccShell/GlobalVarDef.h
 
-1369092684 source:/home/bean/workplace/ccShell/lex.command.c
+1369105210 source:/home/bean/workplace/ccShell/lex.command.c
 	<stdio.h>
 	<string.h>
 	<errno.h>
@@ -84,4 +85,32 @@
 	<stdio.h>
 	<stdlib.h>
 	<unistd.h>
+
+1369115936 source:/home/bean/workplace/ccShell/code_yacc.tab.c
+	"code_yacc.h"
+	<stddef.h>
+	<libintl.h>
+	<alloca.h>
+	<malloc.h>
+	<stdlib.h>
+	<stdlib.h>
+	<stdio.h>
+
+1369113270 /home/bean/workplace/ccShell/code_yacc.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	<signal.h>
+	<setjmp.h>
+
+1369115936 /home/bean/workplace/ccShell/code_yacc.tab.c
+	"code_yacc.h"
+	<stddef.h>
+	<libintl.h>
+	<alloca.h>
+	<malloc.h>
+	<stdlib.h>
+	<stdlib.h>
+	<stdio.h>
 

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <fcntl.h>
 #include <sys/wait.h>
 
 #include "ExecuteCommandDef.h"
@@ -31,10 +32,68 @@ int cd_command(int arg_count, char ** arg)
 
     if(chdir(arg[1]))
     {
-        cout<<"ccShell: cd "<<arg[0]<<": No such file or directory!"<<endl;
+        cout<<"ccShell :cd "<<arg[0]<<":No such file or directory!"<<endl;
         return -1;
     }
 
+    return 0;
+}
+
+int ccShell_command(int arg_count, char ** arg)
+{
+    int i = 0, j = 0, open_file_result = 0, read_file_result = 0;
+    char * file_buffer = NULL;
+    int code_arg_count;
+
+// cout<<"arg_count :"<<arg_count<<endl;
+// for(i = 0; i < arg_count; i++)
+// {
+// cout<<"arg["<<i<<"] :"<<arg[i]<<endl;
+// }
+    for(i = 1; i < arg_count; i++)
+    {
+        open_file_result = open(arg[i], O_RDONLY);
+        if(open_file_result != -1)
+        {
+            file_buffer = (char *)malloc(1024);
+            memset(file_buffer, '\0', 1024);
+            read_file_result = read(open_file_result, file_buffer, 1024);
+            if(-1 == read_file_result)
+            {
+                cout<<"ccShell :File read failed--"<<arg[i]<<"!"<<endl;
+                return -1;
+            }
+            else if(0 == read_file_result)
+            {
+                cout<<"ccShell :File is empty--"<<arg[i]<<"!"<<endl;
+                return -1;
+            }
+            else
+            {
+                while(file_buffer[j])
+                {
+                    if('\n' == file_buffer[j])
+                    {
+                        file_buffer[j] = '#';
+                    }
+                    j++;
+                }
+                get_command_arg(file_buffer, &code_arg_count);
+                code_init();
+                reset_arg();
+            }
+            if(-1 == close(open_file_result))
+            {
+                cout<<"ccShell :File close failed--"<<arg[i]<<"!"<<endl;
+                return -1;
+            }
+        }
+        else
+        {
+            cout<<"ccShell :File open failed--"<<arg[i]<<"!"<<endl;
+            return -1;
+        }
+    }
     return 0;
 }
 
